@@ -19,9 +19,8 @@ namespace ATMConsoleApp
             {
                 Console.Clear();
                 aTM.ShowMenuCustomer(customers);
-                var deciosion = Console.ReadLine();
-                int choice = int.Parse(deciosion);
-                if (choice > 0 && choice <= 8)
+                int choice = int.Parse(Console.ReadLine());
+                if (choice > 0 && choice <= 3)
                 {
                     switch (choice)
                     {
@@ -47,7 +46,7 @@ namespace ATMConsoleApp
                 }
                 else
                 {
-                    Console.WriteLine("invalid value! Try again ");
+                    Console.WriteLine("przypatrz się opcją jeszcze raz..");
                     Thread.Sleep(5000);
                 }
 
