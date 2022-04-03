@@ -8,22 +8,16 @@ namespace ATMClassLib
 {
     public class Customer
     {
-        private string name { get; set; }
-        private string surname { get; set; }
-        private long cardNumber { get; set; }
-        private int cardPin { get; set; }
-        private decimal accountBalance { get; set; }
+        public string name { get; set; }
+        public string surname { get; set; }
+        public long cardNumber { get; set; }
+        public int cardPin { get; set; }
+        public decimal accountBalance { get; set; }
         public bool isLogged { get; set; }
         public bool isSuperUser { get; }
         public Customer()
         {
-            isSuperUser = isSuperUser;
-            name = name;
-            surname = surname;
-            cardNumber = cardNumber;
-            cardPin = cardPin;
-            accountBalance = 0.0m;
-            isLogged = false;
+
         }
         public Customer(bool isSuperUser, string name, string surname, long cardNumber, int cardPin)
         {

@@ -56,7 +56,7 @@ namespace ATMClassLib
                             else
                             {
                                 Console.Clear();
-                                Console.WriteLine("\n\tLOGGED\n\tloading menu..");
+                                Console.WriteLine("\n\tSucced login\n\tloading menu..");
                                 Thread.Sleep(3000);
                                 break;
                             }
@@ -114,12 +114,16 @@ namespace ATMClassLib
                     Console.WriteLine("\n\t2. Account balance");
                     Console.WriteLine("\n\t3. Withdrawn cash");
                     Console.WriteLine("\n\t4. Deposit cash");
-                    Console.WriteLine("\n\t5. Logout");
+                    Console.WriteLine("\n\t5. Change card PIN");
+                    Console.WriteLine("\n\t6. Logout");
                     if (property.isSuperUser)
                     {
                         Console.WriteLine("\n\n\tadditional services");
-                        Console.WriteLine("\t6. Add user");
-                        Console.WriteLine("\t7. Show all users");
+                        Console.WriteLine("\t11. Show all users");
+                        Console.WriteLine("\t22. Add user");                        
+                        Console.WriteLine("\t33. Edit user");
+                        Console.WriteLine("\t44. Delete user");
+                        Console.WriteLine("\t55. Show all users");
                     }
                     Console.Write("\n\tOption: ");
                 }
