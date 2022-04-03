@@ -20,7 +20,7 @@ namespace ATMClassLib
             while (true)
             {
                 Console.Clear();
-                Console.Write("Wprowadź numer karty: ");
+                Console.Write("\n\tEnter the card number: ");
                 bool isCardNumber = long.TryParse(Console.ReadLine(), out userCardNumber);
                 if (!isCardNumber)
                 {
@@ -37,7 +37,7 @@ namespace ATMClassLib
                     }
                     else
                     {
-                        Console.Write("Wprowadź kod PIN: ");
+                        Console.Write("\n\tEnter the card PIN: ");
                         bool isCardPin = int.TryParse(Console.ReadLine(), out userCardPin);
                         if (!isCardPin)
                         {
@@ -52,7 +52,14 @@ namespace ATMClassLib
                                 Console.WriteLine("kod PIN niepoprawny!");
                                 break;
                             }
-                            else break;
+
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("\n\tLOGGED\n\tloading menu..");
+                                Thread.Sleep(3000);
+                                break;
+                            }
                         }
                     }
                 }
@@ -62,11 +69,11 @@ namespace ATMClassLib
         public void AddCustomer(Customer customer, List<Customer> customers)
         {
             Console.Clear();
-            Console.Write("imie: ");
+            Console.Write("name: ");
             string name = Console.ReadLine();
-            Console.Write("nazwisko: ");
+            Console.Write("surname: ");
             string surname = Console.ReadLine();
-            Console.Write("kod PIN: ");
+            Console.Write("card PIN: ");
             int cardPin = int.Parse(Console.ReadLine());
             long newCardNumber = GenerateNewCardNumber();
             customer = customer.CreateCustomer(name, surname, cardPin, newCardNumber);
@@ -102,14 +109,19 @@ namespace ATMClassLib
             {
                 if (property.isLogged)
                 {
-                    Console.WriteLine("--- MENU ---");
-                    Console.WriteLine("\t1. Wyświetl dane użytkownkia.");
+                    Console.WriteLine("\n\tATM Menu\n");
+                    Console.WriteLine("\n\t1. Account details");
+                    Console.WriteLine("\n\t2. Account balance");
+                    Console.WriteLine("\n\t3. Withdrawn cash");
+                    Console.WriteLine("\n\t4. Deposit cash");
+                    Console.WriteLine("\n\t5. Logout");
                     if (property.isSuperUser)
                     {
-                        Console.WriteLine("\n--- dodatkowe opcje ---");
-                        Console.WriteLine("\t2. Dodaj klienta.");
-                        Console.WriteLine("\t3. Wyświetl dane wszystkich użytkowników");
+                        Console.WriteLine("\n\n\tadditional services");
+                        Console.WriteLine("\t6. Add user");
+                        Console.WriteLine("\t7. Show all users");
                     }
+                    Console.Write("\n\tOption: ");
                 }
             }
         }
