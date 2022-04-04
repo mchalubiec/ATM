@@ -8,26 +8,40 @@ namespace ATMClassLib
 {
     public class Customer
     {
+        public int idCustomer { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
         public long cardNumber { get; set; }
         public int cardPin { get; set; }
-        public decimal accountBalance { get; set; }
-        public bool isLogged { get; set; }
+        private decimal accountBalance;
+        public decimal AccountBalance
+        {
+            get { return accountBalance; }
+            private set { accountBalance = value; }
+        }
+        private bool isLogged;
+
+        public bool IsLogged
+        {
+            get { return isLogged; }
+            private set { isLogged = value; }
+        }
+
         public bool isSuperUser { get; }
         public Customer()
         {
 
         }
-        public Customer(bool isSuperUser, string name, string surname, long cardNumber, int cardPin)
+        public Customer(bool isSuperUser, string name, string surname, long cardNumber, int cardPin, decimal accountBalance)
         {
             this.isSuperUser = isSuperUser;
             this.name = name;
             this.surname = surname;
             this.cardNumber = cardNumber;
             this.cardPin = cardPin;
+            this.accountBalance = accountBalance;
         }
-        private void IsLogged(List<Customer> customers, long userCardNumber, int userCardPin)
+        private void IsCustomerLogged(List<Customer> customers, long userCardNumber, int userCardPin)
         {
             foreach (Customer property in customers)
             {
@@ -62,7 +76,7 @@ namespace ATMClassLib
                     if (property.cardPin == userCardPin)
                     {
                         isCorrectCardPin = true;
-                        IsLogged(customers, userCardNumber, userCardPin);
+                        IsCustomerLogged(customers, userCardNumber, userCardPin);
                     }
                 }
             }
@@ -71,10 +85,10 @@ namespace ATMClassLib
         public Customer CreateCustomer(string name, string surname, int cardPin, long newCardNumber)
         {
             Customer customer = new Customer();
-            this.name = name;
-            this.surname = surname;
-            this.cardPin = cardPin;
-            cardNumber = newCardNumber;
+            customer.name = name;
+            customer.surname = surname;
+            customer.cardPin = cardPin;
+            customer.cardNumber = newCardNumber;
             return customer;
         }
         public void ShowCustomerDetails(List<Customer> customers)
@@ -95,20 +109,27 @@ namespace ATMClassLib
             }
             Console.ReadKey();
         }
-        public void ShowCustomersDetails(List<Customer> customers)
+        public long GenerateCustomerNewCardNumber()
         {
-            foreach (Customer property in customers)
+            var generateNumber = new Random();
+            string cos = "";
+            string[] tabCardNumbers = new string[16];
+            for (int i = 0; i < tabCardNumbers.Length; i++)
             {
-                Console.WriteLine("Szczegóły konta klienta");
-                Console.WriteLine(
-                    "Imię..........:{0}\n" +
-                    "Nazwisko......:{1}\n" +
-                    "Numer karty...:{2}\n" +
-                    "Kod PIN.......:{3}\n",
-                    property.name, property.surname, property.cardNumber, property.cardPin
-                );
+                tabCardNumbers[i] += generateNumber.Next(0, 10).ToString();
+                cos += tabCardNumbers[i];
             }
-            Console.ReadKey();
+            return long.Parse(cos);
+        }
+        public void ChargeCustomerAccountBalance(List<Customer> customers, decimal withdrawnAmount)
+        {
+            foreach (var property in customers)
+            {
+                if (property.IsLogged)
+                {
+                    property.AccountBalance -= withdrawnAmount;
+                }
+            }
         }
     }
 }

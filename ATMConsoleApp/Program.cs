@@ -9,47 +9,48 @@ namespace ATMConsoleApp
     {
         static void Main(string[] args)
         {
-            ATM aTM = new ATM();
-            List<Customer> customers = new List<Customer>();
-            customers.Add(new Customer(true, "Jan", "Kowalski", 1111000011110000, 1111));
-            customers.Add(new Customer(false, "Robert", "Wolny", 2222000022220000, 2222));
+            AtmService atmService = new AtmService();
+            AtmSuperUser superUser = new AtmSuperUser();
             Customer customer = new Customer();
-            aTM.SignIn(customer, customers);
+            List<Customer> customers = new List<Customer>();
+            customers.Add(new Customer(true, "Jan", "Kowalski", 1111000011110000, 1111, 1000.0m));
+            customers.Add(new Customer(false, "Robert", "Wolny", 2222000022220000, 2222, 2000.0m));                        
+            atmService.SignIn(customer, customers);
             while (true)
             {
                 Console.Clear();
-                aTM.ShowMenuCustomer(customers);
+                atmService.ShowMenu(customers);
                 int choice = int.Parse(Console.ReadLine());
-                if (choice > 0 && choice <= 3)
+                switch (choice)
                 {
-                    switch (choice)
-                    {
-                        case 1:
-                            {
-                                Console.Clear();
-                                customer.ShowCustomerDetails(customers);
-                                break;
-                            }
-                        case 2:
-                            {
-                                Console.Clear();
-                                aTM.AddCustomer(customer, customers);
-                                break;
-                            }
-                        case 3:
-                            {
-                                Console.Clear();
-                                customer.ShowCustomersDetails(customers);
-                                break;
-                            }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("przypatrz się opcją jeszcze raz..");
-                    Thread.Sleep(5000);
-                }
+                    case 2:
+                        {
+                            Console.Clear();
+                            atmService.ShowAccountBalance(customers);
+                            break;
+                        }
+                    case 3:
+                        {
+                            Console.Clear();
+                            atmService.WithdrawCash(customer, customers);
+                            break;
+                        }
 
+                    case 11:
+                        {
+                            Console.Clear();
+                            superUser.ShowAllCustomers(customers);
+                            break;
+                        }
+                    case 22:
+                        {
+                            Console.Clear();
+                            superUser.AddCustomer(customer, customers);
+                            break;
+                        }
+                    default:
+                        break;
+                }
             }
         }
     }

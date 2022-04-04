@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ATMClassLib
 {
-    public class ATM
+    public class AtmService
     {
         public string InputUser(string inputUser)
         {
@@ -63,51 +63,74 @@ namespace ATMClassLib
                         }
                     }
                 }
-                
+
             }
-        }
-        public void AddCustomer(Customer customer, List<Customer> customers)
-        {
-            Console.Clear();
-            Console.Write("name: ");
-            string name = Console.ReadLine();
-            Console.Write("surname: ");
-            string surname = Console.ReadLine();
-            Console.Write("card PIN: ");
-            int cardPin = int.Parse(Console.ReadLine());
-            long newCardNumber = GenerateNewCardNumber();
-            customer = customer.CreateCustomer(name, surname, cardPin, newCardNumber);
-            customers.Add(customer);
-        }
-        public long GenerateNewCardNumber()
-        {
-            var generateNumber = new Random();
-            string cos = "";
-            string[] tabCardNumbers = new string[16];
-            for (int i = 0; i < tabCardNumbers.Length; i++)
-            {
-                tabCardNumbers[i] += generateNumber.Next(0, 10).ToString();
-                cos += tabCardNumbers[i];
-            }
-            return long.Parse(cos);
         }
         public void WithdrawCash(Customer customer, List<Customer> customers)
         {
+            bool end = true;
+            decimal withdrawnAmount;
+            while (end)
+            {
+                foreach (var property in customers)
+                {
+                    if (property.IsLogged)
+                    {
 
+                        Console.Clear();
+                        Console.Write("\n\tEnter the amount to withdrawn: ");
+                        bool isAmount = decimal.TryParse(Console.ReadLine(), out withdrawnAmount);
+                        if (!isAmount)
+                        {
+                            Console.WriteLine("\n\tbłędna kwota..");
+                            break;
+                        }
+                        else
+                        {
+                            if (!(property.AccountBalance >= withdrawnAmount))
+                            {
+                                Console.WriteLine("\n\tbrak środków na koncie..");
+                                Console.Write("\n\tWant to return to main menu or enter different amount?\n\t(press ENTER to continue or press ESC to return)");
+                                if (Console.ReadKey().Key == ConsoleKey.Escape)
+                                {
+                                    end = false;
+                                    break;
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                customer.ChargeCustomerAccountBalance(customers, withdrawnAmount);
+                                Console.WriteLine($"\n\tWithdrawn cash: {withdrawnAmount:C}");
+                                Console.ReadKey();
+                                end = false;
+                            }
+                        }
+                    }
+
+                }
+            }
         }
         public void DepositCash(Customer customer, List<Customer> customers)
         {
 
         }
-        public void ShowAccountBalance(Customer customer, List<Customer> customers)
+        public void ShowAccountBalance(List<Customer> customers)
         {
-
+            foreach (var property in customers)
+            {
+                if (property.IsLogged)
+                {
+                    Console.WriteLine($"\n\tAccount balance: {property.AccountBalance:C}");
+                }
+            }
+            Console.ReadKey();
         }
-        public void ShowMenuCustomer(List<Customer> customers)
+        public void ShowMenu(List<Customer> customers)
         {
             foreach (Customer property in customers)
             {
-                if (property.isLogged)
+                if (property.IsLogged)
                 {
                     Console.WriteLine("\n\tATM Menu\n");
                     Console.WriteLine("\n\t1. Account details");
@@ -120,10 +143,9 @@ namespace ATMClassLib
                     {
                         Console.WriteLine("\n\n\tadditional services");
                         Console.WriteLine("\t11. Show all users");
-                        Console.WriteLine("\t22. Add user");                        
+                        Console.WriteLine("\t22. Add user");
                         Console.WriteLine("\t33. Edit user");
                         Console.WriteLine("\t44. Delete user");
-                        Console.WriteLine("\t55. Show all users");
                     }
                     Console.Write("\n\tOption: ");
                 }
