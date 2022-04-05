@@ -20,13 +20,11 @@ namespace ATMClassLib
             private set { accountBalance = value; }
         }
         private bool isLogged;
-
         public bool IsLogged
         {
             get { return isLogged; }
             private set { isLogged = value; }
         }
-
         public bool isSuperUser { get; }
         public Customer()
         {
@@ -54,6 +52,7 @@ namespace ATMClassLib
                 }
             }
         }
+        public void 
         public bool IsExistCardNumber(List<Customer> customers, long userCardNumber)
         {
             bool isExistCardNumber = false;
@@ -91,24 +90,6 @@ namespace ATMClassLib
             customer.cardNumber = newCardNumber;
             return customer;
         }
-        public void ShowCustomerDetails(List<Customer> customers)
-        {
-            foreach (Customer property in customers)
-            {
-                if (property.isLogged)
-                {
-                    Console.WriteLine("Szczegóły konta klienta");
-                    Console.WriteLine(
-                        "Imię..........:{0}\n" +
-                        "Nazwisko......:{1}\n" +
-                        "Numer karty...:{2}\n" +
-                        "Kod PIN.......:{3}\n",
-                        property.name, property.surname, property.cardNumber, property.cardPin
-                    );
-                }
-            }
-            Console.ReadKey();
-        }
         public long GenerateCustomerNewCardNumber()
         {
             var generateNumber = new Random();
@@ -121,13 +102,23 @@ namespace ATMClassLib
             }
             return long.Parse(cos);
         }
-        public void ChargeCustomerAccountBalance(List<Customer> customers, decimal withdrawnAmount)
+        public void ReduceCustomerAccountBalance(List<Customer> customers, decimal amount)
         {
             foreach (var property in customers)
             {
                 if (property.IsLogged)
                 {
-                    property.AccountBalance -= withdrawnAmount;
+                    property.AccountBalance -= amount;
+                }
+            }
+        }
+        public void IncreaseCustomerAccountBalance(List<Customer> customers, decimal amount)
+        {
+            foreach (var property in customers)
+            {
+                if (property.IsLogged)
+                {
+                    property.AccountBalance += amount;
                 }
             }
         }

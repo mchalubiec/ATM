@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AtmService.cs" />
-    <Compile Include="AtmSuperUser.cs" />
+    <Compile Include="AtmAdditionalService.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

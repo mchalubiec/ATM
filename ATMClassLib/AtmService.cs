@@ -9,10 +9,7 @@ namespace ATMClassLib
 {
     public class AtmService
     {
-        public string InputUser(string inputUser)
-        {
-            return inputUser;
-        }
+        decimal amount;
         public void SignIn(Customer customer, List<Customer> customers)
         {
             long userCardNumber;
@@ -66,55 +63,6 @@ namespace ATMClassLib
 
             }
         }
-        public void WithdrawCash(Customer customer, List<Customer> customers)
-        {
-            bool end = true;
-            decimal withdrawnAmount;
-            while (end)
-            {
-                foreach (var property in customers)
-                {
-                    if (property.IsLogged)
-                    {
-
-                        Console.Clear();
-                        Console.Write("\n\tEnter the amount to withdrawn: ");
-                        bool isAmount = decimal.TryParse(Console.ReadLine(), out withdrawnAmount);
-                        if (!isAmount)
-                        {
-                            Console.WriteLine("\n\tbłędna kwota..");
-                            break;
-                        }
-                        else
-                        {
-                            if (!(property.AccountBalance >= withdrawnAmount))
-                            {
-                                Console.WriteLine("\n\tbrak środków na koncie..");
-                                Console.Write("\n\tWant to return to main menu or enter different amount?\n\t(press ENTER to continue or press ESC to return)");
-                                if (Console.ReadKey().Key == ConsoleKey.Escape)
-                                {
-                                    end = false;
-                                    break;
-                                }
-                                break;
-                            }
-                            else
-                            {
-                                customer.ChargeCustomerAccountBalance(customers, withdrawnAmount);
-                                Console.WriteLine($"\n\tWithdrawn cash: {withdrawnAmount:C}");
-                                Console.ReadKey();
-                                end = false;
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        public void DepositCash(Customer customer, List<Customer> customers)
-        {
-
-        }
         public void ShowAccountBalance(List<Customer> customers)
         {
             foreach (var property in customers)
@@ -125,6 +73,115 @@ namespace ATMClassLib
                 }
             }
             Console.ReadKey();
+        }
+        public void ShowAccountDetails(List<Customer> customers)
+        {
+            foreach (var property in customers)
+            {
+                if (property.IsLogged)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Id customer {property.idCustomer}, user logged: {property.IsLogged}");
+                    Console.ResetColor();
+                    Console.WriteLine(
+                        "\tName: {0}\n" +
+                        "\tSurname: {1}\n" +
+                        "\tCard number: {2}\n" +
+                        "\tCard PIN: {3}\n" +
+                        "\tAccount balance: {4:C}\n",
+                        property.name, property.surname, property.cardNumber, property.cardPin, property.AccountBalance
+                    );
+                }
+            }
+            Console.ReadKey();
+        }
+        public void WithdrawCash(Customer customer, List<Customer> customers)
+        {
+            bool end = true;
+            while (end)
+            {
+                foreach (var property in customers)
+                {
+                    if (property.IsLogged)
+                    {
+                        Console.Clear();
+                        Console.Write("\n\tEnter the amount to withdrawn: ");
+                        bool isAmount = decimal.TryParse(Console.ReadLine(), out amount);
+                        if (!isAmount)
+                        {
+                            Console.WriteLine("\n\tbłędna kwota..");
+                            break;
+                        }
+                        else
+                        {
+                            if (!(property.AccountBalance >= amount))
+                            {
+                                Console.WriteLine("\n\tbrak środków na koncie..");
+                                Console.Write("\n\tWant to return to main menu or enter different amount?\n\t(press ENTER to continue or press ESC to return)");
+                                if (Console.ReadKey().Key == ConsoleKey.Escape)
+                                {
+                                    end = false;
+                                    break;
+                                }
+                                if (Console.ReadKey().Key == ConsoleKey.Enter) break;
+                            }
+                            else
+                            {
+                                customer.ReduceCustomerAccountBalance(customers, amount);
+                                Console.WriteLine($"\n\tWithdrawn cash: {amount:C}");
+                                Console.WriteLine("\ntpress ENTER to continue..");
+                                Console.ReadKey();
+                                end = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public void DepositCash(Customer customer, List<Customer> customers)
+        {
+            bool end = true;
+            while (end)
+            {
+                foreach (var property in customers)
+                {
+                    if (property.IsLogged)
+                    {
+                        Console.Clear();
+                        Console.Write("\n\tEnter the amount to deposit: ");
+                        bool isAmount = decimal.TryParse(Console.ReadLine(), out amount);
+                        if (!isAmount)
+                        {
+                            Console.WriteLine("\n\tbłędna kwota..");
+                            break;
+                        }
+                        else
+                        {
+                            customer.IncreaseCustomerAccountBalance(customers, amount);
+                            Console.WriteLine($"\n\tDeposit cash: {amount:C}");
+                            Console.WriteLine("\ntpress ENTER to continue..");
+                            Console.ReadKey();
+                            end = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        public void ChangeCardPin(Customer customer, List<Customer> customers)
+        {
+
+        }
+        public void Logout(List<Customer> customers)
+        {
+            bool logout;
+            foreach (var property in customers)
+            {
+                if (property.IsLogged)
+                {
+                    logout = true;
+                }
+            }
         }
         public void ShowMenu(List<Customer> customers)
         {

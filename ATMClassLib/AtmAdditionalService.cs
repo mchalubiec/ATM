@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ATMClassLib
 {
-    public class AtmSuperUser
+    public class AtmAdditionalService
     {
         public void ShowAllCustomers(List<Customer> customers)
         {
             foreach (Customer property in customers)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Id customer {property.idCustomer}, user logged: {property.IsLogged}");
+                Console.WriteLine($"\n\tId customer {property.idCustomer}, user logged: {property.IsLogged}");
                 Console.ResetColor();
                 Console.WriteLine(
                     "\tName: {0}\n" +
@@ -29,11 +29,11 @@ namespace ATMClassLib
         public void AddCustomer(Customer customer, List<Customer> customers)
         {
             Console.Clear();
-            Console.Write("name: ");
+            Console.Write("\n\tEnter name: ");
             string name = Console.ReadLine();
-            Console.Write("surname: ");
+            Console.Write("\n\tEntersurname: ");
             string surname = Console.ReadLine();
-            Console.Write("card PIN: ");
+            Console.Write("\n\tEnter card PIN: ");
             int cardPin = int.Parse(Console.ReadLine());
             long newCardNumber = customer.GenerateCustomerNewCardNumber();
             customer = customer.CreateCustomer(name, surname, cardPin, newCardNumber);
