@@ -81,7 +81,7 @@ namespace ATMClassLib
                 if (property.IsLogged)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Id customer {property.idCustomer}, user logged: {property.IsLogged}");
+                    Console.WriteLine($"Id customer {property.IdCustomer}, user logged: {property.IsLogged}");
                     Console.ResetColor();
                     Console.WriteLine(
                         "\tName: {0}\n" +

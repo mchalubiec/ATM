@@ -13,7 +13,7 @@ namespace ATMClassLib
             foreach (Customer property in customers)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\n\tId customer {property.idCustomer}, user logged: {property.IsLogged}");
+                Console.WriteLine($"\n\tId customer {property.IdCustomer}, user logged: {property.IsLogged}");
                 Console.ResetColor();
                 Console.WriteLine(
                     "\tName: {0}\n" +
@@ -36,7 +36,8 @@ namespace ATMClassLib
             Console.Write("\n\tEnter card PIN: ");
             int cardPin = int.Parse(Console.ReadLine());
             long newCardNumber = customer.GenerateCustomerNewCardNumber();
-            customer = customer.CreateCustomer(name, surname, cardPin, newCardNumber);
+            string idCustomer = customer.GenerateIdCustomer();
+            customer = customer.CreateCustomer(idCustomer, name, surname, cardPin, newCardNumber);
             customers.Add(customer);
         }
         public void DeleteCustomer()

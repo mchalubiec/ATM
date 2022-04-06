@@ -9,6 +9,8 @@ namespace ATMConsoleApp
     {
         static void Main(string[] args)
         {
+            Console.Title = "ATM Machine";
+            Console.WriteLine("\n\nWelcome to ATM Machine");
             AtmService atmService = new AtmService();
             AtmAdditionalService atmAdditionalService = new AtmAdditionalService();
             Customer customer = new Customer();
@@ -17,8 +19,9 @@ namespace ATMConsoleApp
             customers.Add(new Customer(false, "Robert", "Wolny", 2222000022220000, 2222, 2000.0m));
             while (true)
             {
+                bool end = true;
                 atmService.SignIn(customer, customers);
-                while (true)
+                while (end)
                 {
                     Console.Clear();
                     atmService.ShowMenu(customers);
@@ -59,6 +62,7 @@ namespace ATMConsoleApp
                             {
                                 Console.Clear();
                                 atmService.Logout(customers);
+                                end = false;
                                 break;
                             }
                         case 11:

@@ -8,7 +8,12 @@ namespace ATMClassLib
 {
     public class Customer
     {
-        public int idCustomer { get; set; }
+        private string idCustomer { get; set; }
+        public string IdCustomer
+        {
+            get { return idCustomer; }
+            set { idCustomer = value; }
+        }
         public string name { get; set; }
         public string surname { get; set; }
         public long cardNumber { get; set; }
@@ -52,7 +57,6 @@ namespace ATMClassLib
                 }
             }
         }
-        public void 
         public bool IsExistCardNumber(List<Customer> customers, long userCardNumber)
         {
             bool isExistCardNumber = false;
@@ -81,9 +85,10 @@ namespace ATMClassLib
             }
             return isCorrectCardPin;
         }
-        public Customer CreateCustomer(string name, string surname, int cardPin, long newCardNumber)
+        public Customer CreateCustomer(string idCustomer, string name, string surname, int cardPin, long newCardNumber)
         {
             Customer customer = new Customer();
+            customer.idCustomer = idCustomer;
             customer.name = name;
             customer.surname = surname;
             customer.cardPin = cardPin;
@@ -121,6 +126,11 @@ namespace ATMClassLib
                     property.AccountBalance += amount;
                 }
             }
+        }
+        public string GenerateIdCustomer()
+        {
+            string cos = "";
+            return cos;
         }
     }
 }
